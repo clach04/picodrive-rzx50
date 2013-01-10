@@ -32,6 +32,9 @@ endif
 LDFLAGS += -lpng `sdl-config --libs` -lm
 COPT += `sdl-config --cflags`
 
+# allow debugger to be used
+#COPT += -g
+
 # frontend
 OBJS += main.o menu.o emu.o blit.o sdlemu.o log_io.o scaler.o
 
