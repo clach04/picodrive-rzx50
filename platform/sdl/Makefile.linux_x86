@@ -1,3 +1,10 @@
+#
+# Makefile for Linux desktop x86 (i.e. 32 bit Intel)
+#
+# Example invocation:
+#
+#   make -B -f Makefile.linux_x86
+#
 
 # settings
 #use_musashi = 1
@@ -22,7 +29,8 @@ COPT_COMMON = $(COPT)
 endif
 
 # librarues 
-LDFLAGS += -static -lpng -Wl,-Bdynamic -lSDL -lSDLmain -lm
+LDFLAGS += -lpng `sdl-config --libs` -lm
+COPT += `sdl-config --cflags`
 
 # frontend
 OBJS += main.o menu.o emu.o blit.o sdlemu.o log_io.o scaler.o
@@ -97,7 +105,7 @@ tidy:
 PicoDrive : $(OBJS)
 	@echo ">>>" $@
 	$(GCC) $(COPT) $^ $(LDFLAGS) -o bin/$@.exe
-	$(STRIP) bin/$@.exe
+	#$(STRIP) bin/$@.exe
 
 mkdirs:
 	mkdir -p $(DIRS)
@@ -114,6 +122,6 @@ mkdirs:
 
 .s.o:
 	@echo ">>>" $<
-	$(AS) -march=mips32 -mtune=r4600 $< -o $@
+	$(AS)  $< -o $@
 
 cpu/fame/famec.o : ../../cpu/fame/famec.c ../../cpu/fame/famec_opcodes.h
